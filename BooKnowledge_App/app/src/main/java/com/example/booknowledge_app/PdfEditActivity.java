@@ -43,7 +43,7 @@ public class PdfEditActivity extends AppCompatActivity {
         bookId = getIntent().getStringExtra("bookId");
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait");
+        progressDialog.setTitle("Hãy Đợi");
         progressDialog.setCanceledOnTouchOutside(false);
         
         loadCategories();
@@ -70,34 +70,40 @@ public class PdfEditActivity extends AppCompatActivity {
             }
         });
     }
-    String title="",description="";
+    String title="",description="",author="";
     private void validateData() {
         //get data
         title = binding.titleEt.getText().toString().trim();
         description = binding.descriptionEt.getText().toString().trim();
+        author = binding.authorEt.getText().toString().trim();
+
         //validate data
         if(TextUtils.isEmpty(title)){
-            Toast.makeText(this, "Enter Title", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nhập tên sách", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(description)) {
-            Toast.makeText(this, "Enter Description", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nhập mô tả", Toast.LENGTH_SHORT).show();
 
         }else if (TextUtils.isEmpty(selectedCategoryId)){
-            Toast.makeText(this, "Pick Category", Toast.LENGTH_SHORT).show();
-        }else {
+            Toast.makeText(this, "Chọn thể loại", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty((author))) {
+            Toast.makeText(this, "Nhập tên tác giả", Toast.LENGTH_SHORT).show();
+        } else
+        {
             updatePdf();
         }
 
     }
 
     private void updatePdf() {
-        Log.d(TAG, "updatePdf: Starting updating pdf intto db...");
+        Log.d(TAG, "updatePdf: Bắt đầu cập nhật pdf đến db...");
 
         //show progess
-        progressDialog.setMessage("Updating book info...");
+        progressDialog.setMessage("Đang cập nhật thông tin sách...");
         progressDialog.show();
 
         //setup data to update to db
         HashMap<String,Object>  hashMap = new HashMap<>();
+        hashMap.put("author",""+author);
         hashMap.put("title",""+title);
         hashMap.put("description",""+description);
         hashMap.put("categoryId",""+selectedCategoryId);
@@ -110,7 +116,7 @@ public class PdfEditActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "onSuccess: book updated ");
-                        Toast.makeText(PdfEditActivity.this, "Book info updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PdfEditActivity.this, "Thông tin sách đã được cập nhật", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -118,14 +124,14 @@ public class PdfEditActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "onFailure: update fail : " +e.getMessage());
                         progressDialog.dismiss();
-                        Toast.makeText(PdfEditActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PdfEditActivity.this, "Cập nhật thất bại do "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
 
     private void loadBookInfo() {
-        Log.d(TAG, "loadBookInfo: Loading book info");
+        Log.d(TAG, "loadBookInfo: Đang tải thông tin sách");
 
         DatabaseReference refbook = FirebaseDatabase.getInstance().getReference("Books");
         refbook.child(bookId)
@@ -142,7 +148,7 @@ public class PdfEditActivity extends AppCompatActivity {
                         binding.titleEt.setText(title);
                         binding.descriptionEt.setText(description);
 
-                        Log.d(TAG, "onDataChange: : Loading Book Category Info");
+                        Log.d(TAG, "onDataChange: : Đang tải thông tin thể loại");
                         DatabaseReference refBookCategory = FirebaseDatabase.getInstance().getReference("Categories");
                         refBookCategory.child(selectedCategoryId)
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -152,7 +158,6 @@ public class PdfEditActivity extends AppCompatActivity {
                                         String category =""+ snapshot.child("category").getValue();
                                         //set to category textview
                                         binding.categoryTv.setText(category);
-
                                     }
 
                                     @Override
@@ -160,9 +165,6 @@ public class PdfEditActivity extends AppCompatActivity {
 
                                     }
                                 });
-
-
-
 
                     }
 
@@ -201,7 +203,7 @@ public class PdfEditActivity extends AppCompatActivity {
 
     }
     private void loadCategories() {
-        Log.d(TAG, "loadCategories: Loading categories");
+        Log.d(TAG, "loadCategories: Đang tải thể loại");
         categoryIdArrayList = new ArrayList<>();
         categoryTitleArrayList = new ArrayList<>();
 

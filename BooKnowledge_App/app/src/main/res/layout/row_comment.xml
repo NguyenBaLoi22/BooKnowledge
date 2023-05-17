@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    app:cardElevation="0dp"
+    app:contentPadding="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="5dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/profileIv"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_person_gray"
+            app:strokeColor="@color/gray1"
+            app:strokeWidth="1dp"
+            app:shapeAppearanceOverlay="@style/styleCircleImage"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameTv"
+            android:layout_toEndOf="@id/profileIv"
+            android:layout_toStartOf="@id/dateTv"
+            android:text="Ten user"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateTv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/daymonthyear"
+            android:textColor="@color/gray1"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/commentTv"
+            android:layout_toEndOf="@id/profileIv"
+            android:layout_below="@id/nameTv"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/gray1"
+            android:text="day la comment cua minh"
+            android:textSize="12sp"/>
+
+
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

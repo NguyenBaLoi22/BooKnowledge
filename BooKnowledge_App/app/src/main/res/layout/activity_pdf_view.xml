@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/SHOW_ALL"
     tools:context=".PdfViewActivity">
 
     <!--Toolbar-->
@@ -11,7 +12,7 @@
         android:id="@+id/toolbarRL"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@drawable/shape_toolbar02">
+        android:background="@drawable/shape_toolbar03">
 
         <!--Back btn-->
         <ImageButton
@@ -21,7 +22,8 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <!--Textview Title-->
         <TextView
@@ -52,7 +54,8 @@
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbarRL"/>
+        android:layout_below="@+id/toolbarRL"
+         />
 
     <!--Progressbar-->
     <ProgressBar
@@ -60,5 +63,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+
+        >
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/jumpPreBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="140dp"
+            android:backgroundTint="@color/main_cyan"
+            app:srcCompat="@drawable/ic_arrow_back"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/jumpNextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="140dp"
+            android:backgroundTint="@color/main_cyan"
+            app:srcCompat="@drawable/ic_arrow_next"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/text2SpeechBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:backgroundTint="@color/main_cyan"-->
+<!--            app:srcCompat="@drawable/ic_play"-->
+<!--            tools:ignore="SpeakableTextPresentCheck" />-->
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

@@ -108,7 +108,6 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        //deletesuccesfully
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

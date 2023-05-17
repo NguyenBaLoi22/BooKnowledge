@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_rect"
+    android:padding="20dp">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/black"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:padding="5dp"
+        android:text="Thêm Bình Luận"
+        android:textAlignment="center"
+        android:textColor="@color/design_default_color_primary"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backBtn"
+        android:id="@+id/commentTil"
+        android:layout_marginTop="20dp"
+        android:hint="Bình Luận"
+        app:startIconDrawable="@drawable/ic_add_comment_black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/commentET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_edittext01"
+            android:inputType="textCapSentences|textMultiLine"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitBtn"
+        android:layout_below="@id/commentTil"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_button01"
+        android:text="Gửi"
+        android:textColor="@color/white"/>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

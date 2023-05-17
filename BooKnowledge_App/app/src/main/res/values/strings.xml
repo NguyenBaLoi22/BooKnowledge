@@ -49,4 +49,6 @@
     <string name="offline">Offline :</string>
     <string name="tacgia">Tác Giả</string>
     <string name="booknowledge">BooKnowledge</string>
+    <string name="profile">Profile</string>
+    <string name="cap_nhat">Cập Nhật</string>
 </resources>

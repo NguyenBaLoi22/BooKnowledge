@@ -12,21 +12,14 @@
         android:layout_height="300dp"
         android:background="@drawable/shape_toolbar01">
 
-        <ImageView
-            android:id="@+id/iconIv"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="48dp"
-            android:src="@drawable/logo" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iconIv"
+            android:layout_marginTop="70dp"
             android:layout_centerHorizontal="true"
             android:text="@string/taotaikhoan"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="@color/white"/>
 
         <ImageButton
             android:id="@+id/backBtn"
@@ -50,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="225dp">
+        android:layout_marginTop="200dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,12 +143,10 @@
         android:id="@+id/registerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/scv1"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/scv1"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="130dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="60dp"
         android:background="@drawable/shape_button01"
         android:text="@string/dangki"
         app:backgroundTint="@null" />

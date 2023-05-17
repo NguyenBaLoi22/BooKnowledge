@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.booknowledge_app.databinding.ActivityLoginBinding;
@@ -21,16 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-
     ActivityLoginBinding binding;
-
     //firebase auth
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
     private DatabaseReference usersRef;
     private FirebaseUser currentUser;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait");
+        progressDialog.setTitle("Hãy Chờ");
         progressDialog.setCanceledOnTouchOutside(false);
 
-
-
-        //handle register screen
         binding.noAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,62 +51,62 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //handle login
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateData();
+
+                CheckDataInput();
+            }
+        });
+
+        binding.forgotTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
+
             }
         });
     }
     private String email = "", password = "";
-    private void validateData() {
-        //before login , validateData
-
+    private void CheckDataInput() {
         email = binding.emailEt.getText().toString().trim();
         password = binding.passwordEt.getText().toString().trim();
-
         //validate data
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-
-            Toast.makeText(this,"Invalid email pattern...",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Định dạng email không hợp lệ",Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this,"Enter password...",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Nhập mật khẩu",Toast.LENGTH_LONG).show();
         }
         else {
-            loginUser();
+            login();
         }
-
-
-
-
     }
-
-    private void loginUser() {
-        progressDialog.setMessage("Logging In...");
+    private void login() {
+        progressDialog.setMessage("Đang Đăng Nhập");
         progressDialog.show();
 
         //login user firebase
-        firebaseAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                //login success,check if user or admin
-                checkUser();
+        firebaseAuth.signInWithEmailAndPassword(email,password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        //login success,check if user or admin
+                        checkType();
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                //login fail
-                progressDialog.dismiss();
-                Toast.makeText(LoginActivity.this,""+e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        //login fail
+                        progressDialog.dismiss();
+                        Toast.makeText(LoginActivity.this,""+e.getMessage(),Toast.LENGTH_LONG).show();
 
-            }
-        });
+                    }
+                });
     }
-
-    private void checkUser() {
-        progressDialog.setMessage("Checking User...!");
+    private void checkType() {
+        progressDialog.setMessage("Kiểm tra người dùng!");
         //check user or admin
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -130,15 +124,14 @@ public class LoginActivity extends AppCompatActivity {
                 String userType = ""+snapshot.child("userType").getValue();
                 //check user type
                 if(userType.equals("user")){
-                    // la user thi chuyen qua dashboard cho user
-                    startActivity(new Intent(LoginActivity.this,DashboardUserActivity.class));
+                    // la user thi chuyen qua giao dien nguoi dung
+                    startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
                     finish();
                 }
                 else if (userType.equals("admin")){
-                    // la admin thi chuyen qua dashboard admin
+                    // la admin thi chuyen qua giao dien admin
                     startActivity(new Intent(LoginActivity.this,DashboardAdminActivity.class));
                     finish();
-
                 }
             }
 
@@ -147,17 +140,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-        // Nếu người dùng đã đăng nhập
-        if (currentUser != null) {
-            // Cập nhật thời gian gần nhất mà người dùng đã hoạt động trên ứng dụng của bạn
-            usersRef.child(currentUser.getUid()).child("lastActiveTimestamp").setValue(System.currentTimeMillis());
-        }
-    }
 }

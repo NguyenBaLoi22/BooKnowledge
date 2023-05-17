@@ -19,17 +19,18 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <!--Title-->
         <TextView
             android:id="@+id/titleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thư viện"
+            android:text="Thể Loại"
             android:layout_marginTop="8dp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
@@ -52,17 +53,18 @@
         android:id="@+id/searchEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/toolbarRL"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@color/white"
-        android:layout_below="@id/toolbarRL"
-        android:padding="10dp"
-        android:hint="Tìm kiếm"
-        android:textColorHint="@color/gray03"
         android:drawableStart="@drawable/ic_search_white"
         android:drawablePadding="10dp"
-        android:textColor="@color/black"/>
+        android:hint="Tìm kiếm"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="#757575"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <!--Pdf List-->
     <androidx.recyclerview.widget.RecyclerView

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "832075806633",
-    "firebase_url": "https://booknowledge-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "booknowledge-app",
-    "storage_bucket": "booknowledge-app.appspot.com"
+    "project_number": "973918571188",
+    "firebase_url": "https://booknowledge-test-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "booknowledge-test",
+    "storage_bucket": "booknowledge-test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:832075806633:android:7e17f18eedd9deb6eb76b8",
+        "mobilesdk_app_id": "1:973918571188:android:3154b2168f4ac81235e5e1",
         "android_client_info": {
           "package_name": "com.example.booknowledge_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "832075806633-6v0v7jplgt0pl0pqg2grred8pgcpmbr3.apps.googleusercontent.com",
+          "client_id": "973918571188-3jmevt0o27gl4gdmqrneckmk7u73mi93.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAnr8b15qhYl1B-evHGR-58mMADgrhARJM"
+          "current_key": "AIzaSyCO4zq1eNSpX0eWPaFfX-FdLYOXXFnPwFM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "832075806633-6v0v7jplgt0pl0pqg2grred8pgcpmbr3.apps.googleusercontent.com",
+              "client_id": "973918571188-3jmevt0o27gl4gdmqrneckmk7u73mi93.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

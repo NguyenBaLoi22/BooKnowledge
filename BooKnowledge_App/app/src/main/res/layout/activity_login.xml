@@ -10,7 +10,7 @@
         android:id="@+id/tool"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/shape_toolbar01">
+        >
         <ImageView
             android:layout_width="110dp"
             android:layout_height="110dp"
@@ -23,11 +23,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iconIv"
             android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
             android:text="@string/dangnhap"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            />
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -105,10 +108,25 @@
         android:id="@+id/noAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/scv1"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="187dp"
+        android:layout_marginBottom="20dp"
         android:padding="10dp"
         android:text="@string/taotaikhoan"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/noAccount"
+        android:text="version 1.0"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="italic"
+        android:textSize="10sp"
+        android:textColor="@color/black"
+        tools:ignore="DuplicateIds" />
+
 </RelativeLayout>

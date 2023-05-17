@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +24,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         usersRef = FirebaseDatabase.getInstance().getReference("Users");
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -34,15 +31,13 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                checkUser();
+                checkTypeUser();
             }
-
 
         }, 2000);
     }
 
-
-    private void checkUser() {
+    private void checkTypeUser() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -65,22 +60,17 @@ public class SplashActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError error) {
-
                         }
                     });
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Nếu người dùng đã đăng nhập
-        if (currentUser != null) {
+        if (currentUser != null) {         // Nếu người dùng đã đăng nhập
             // Cập nhật thời gian gần nhất mà người dùng đã hoạt động trên ứng dụng của bạn
             usersRef.child(currentUser.getUid()).child("lastActiveTimestamp").setValue(System.currentTimeMillis());
         }
     }
-
 }

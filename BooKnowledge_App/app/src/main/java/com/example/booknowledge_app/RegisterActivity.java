@@ -21,13 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
-
-    ActivityRegisterBinding binding;
-
+     ActivityRegisterBinding binding;
      FirebaseAuth firebaseAuth;
-
      ProgressDialog progressDialog;
-
     private DatabaseReference usersRef;
     private FirebaseUser currentUser;
 
@@ -37,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //init firebase auth
+        //khai báo firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
 
         // progressDialog
@@ -46,16 +42,11 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
 
-
-
-
-
-        //Handle click, begin register
-
+        //set sự kiện cho các button
         binding.registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateData();
+                checkDataInput();
             }
         });
 
@@ -63,80 +54,72 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-
             }
         });
     }
     private String name="";
     private String email="";
     private String password ="";
-    private void validateData() {
-
+    private void checkDataInput() {
         //xac thuc du lieu truoc khi tao tai khoan
-
         //get data
         name = binding.nameEt.getText().toString().trim();
         email = binding.emailEt.getText().toString().trim();
         password = binding.passwordEt.getText().toString().trim();
         String cPassword = binding.confirmPasswordEt.getText().toString().trim();
-
         if (TextUtils.isEmpty(name)){
-            Toast.makeText(this,"Enter your name...",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Nhập tên của bạn...",Toast.LENGTH_LONG).show();
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-
-            Toast.makeText(this,"Invalid email pattern...",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Sai định dạng email...",Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this,"Enter password...",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Nhập Mật khẩu...",Toast.LENGTH_LONG).show();
         }
         else if (TextUtils.isEmpty(cPassword)) {
-            Toast.makeText(this,"Confirm password...",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Nhập Xác Nhận Mật khẩu...",Toast.LENGTH_LONG).show();
         } else if (!password.equals(cPassword)) {
-            Toast.makeText(this,"Password don't match...!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Xác Nhận Mật Khẩu Sai...!",Toast.LENGTH_LONG).show();
         }else {
-            CreateUserAccount();
+            CreateAccount();
         }
     }
 
-    private void CreateUserAccount() {
+    private void CreateAccount() {
         //show progress
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage("Đang Tạo Tài Khoản...");
         progressDialog.show();
-
-        //create user in firebase
+        //create account
         firebaseAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                //account creation success,
-                updateUserInfor();//add in realtime database
-
-
+                // tao thanh cong
+                updateUserInfo();//them du lieu vao realtime database
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure( Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this,""+e.getMessage(),Toast.LENGTH_LONG).show();
-
+                Toast.makeText(RegisterActivity.this,"Tạo tài khoản thất bại vì"+e.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void updateUserInfor() {
-        progressDialog.setMessage("Saving user info...");
+    private void updateUserInfo() {
+        progressDialog.setMessage("Lưu thông tin người dùng...");
 
         //timestamp
         long timestamp = System.currentTimeMillis();
-
+        //id = thoi gian tao tai khoan
         //get current user uid, since user is registered
         String uid = firebaseAuth.getUid();
-
+        String lastTimeActive = ""+ System.currentTimeMillis();
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("uid",uid);
         hashMap.put("name",name);
         hashMap.put("email",email);
-        hashMap.put("ProfireImage",""); //add empty , will do later
+        hashMap.put("ProfileImage",""); //add empty , will do later
         hashMap.put("userType","user"); // set mac dinh la user, admin sua o firebase
         hashMap.put("timestamp",timestamp);
+        hashMap.put("lastActiveTimestamp",lastTimeActive);
 
         // set data to database
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -147,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
                         //data added to db
-                        Toast.makeText(RegisterActivity.this,"Account created...",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,"Tạo Tài khoản thành công..",Toast.LENGTH_LONG).show();
                         startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
                         finish();
                     }
@@ -162,14 +145,4 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Nếu người dùng đã đăng nhập
-        if (currentUser != null) {
-            // Cập nhật thời gian gần nhất mà người dùng đã hoạt động trên ứng dụng của bạn
-            usersRef.child(currentUser.getUid()).child("lastActiveTimestamp").setValue(System.currentTimeMillis());
-        }
-    }
 }

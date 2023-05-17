@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rl1"
+        android:background="@drawable/back01"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:padding="15dp"
+            android:id="@+id/settingViewReadTV"
+            android:text="Giao diện đọc sách"
+            android:drawablePadding="15dp"
+            android:background="@drawable/shape_text_in_setting_activity_top"
+            app:drawableStartCompat="@drawable/ic_text_format_24"
+            app:drawableTint="@color/black"
+            app:drawableEndCompat="@drawable/ic_arrow_noline" />
+
+        <TextView
+            android:id="@+id/settingThemeTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingViewReadTV"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/shape_text_in_setting_activity"
+            android:drawablePadding="15dp"
+            android:padding="15dp"
+            android:text="Giao Diện Ứng Dụng"
+            app:drawableEndCompat="@drawable/ic_arrow_noline"
+            app:drawableStartCompat="@drawable/ic_setting_theme"
+            app:drawableTint="@color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingThemeTV"
+            android:padding="15dp"
+            android:background="@drawable/shape_text_in_setting_activity"
+            android:id="@+id/notificationTV"
+            android:text="Thông Báo"
+            android:drawablePadding="15dp"
+            app:drawableEndCompat="@drawable/ic_arrow_noline"
+            app:drawableTint="@color/black"
+            app:drawableStartCompat="@drawable/ic_notification" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notificationTV"
+            android:padding="15dp"
+            android:id="@+id/languageTV"
+            android:text="Ngôn Ngữ"
+            android:background="@drawable/shape_text_in_setting_activity_bot"
+            android:drawablePadding="15dp"
+            app:drawableEndCompat="@drawable/ic_arrow_noline"
+            app:drawableStartCompat="@drawable/ic_language"
+            app:drawableTint="@color/black" />
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng xuất"
+        android:id="@+id/logoutBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/nav"
+        android:padding="10dp"
+        android:textColor="@color/main_pink"
+        android:background="@drawable/shape_button02_pink"
+        app:backgroundTint = "@null"/>
+
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/shape_nav_bottom"
+        app:itemIconTint="@color/custome_bottom_nav_color"
+        app:itemTextColor="@color/custome_bottom_nav_color"
+        app:menu="@menu/menubottomnavigation" />
+
+</RelativeLayout>

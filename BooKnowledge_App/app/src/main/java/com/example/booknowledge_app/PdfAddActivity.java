@@ -61,7 +61,7 @@ public class PdfAddActivity extends AppCompatActivity {
         loadPdfCategories();
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait");
+        progressDialog.setTitle("Hãy Đợi");
         progressDialog.setCanceledOnTouchOutside(false);
 
         //handle click
@@ -90,7 +90,7 @@ public class PdfAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateData();
-
+                finish();
             }
         });
     }
@@ -106,17 +106,17 @@ public class PdfAddActivity extends AppCompatActivity {
         description= binding.descriptionEt.getText().toString().trim();
         //validate data
         if(TextUtils.isEmpty(title)){
-            Toast.makeText(this,"Enter Title",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Nhập Tên Sách",Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(description)) {
-            Toast.makeText(this,"Enter Description",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Nhập mô tả",Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(author)) {
-            Toast.makeText(this,"Enter Author",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Nhập tên tác giả",Toast.LENGTH_SHORT).show();
 
         }else if(TextUtils.isEmpty(selectedCategoryTitle)){
-            Toast.makeText(this,"Pick category",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Chọn thể loại",Toast.LENGTH_SHORT).show();
 
         } else if (pdfUri == null) {
-            Toast.makeText(this,"pick pdf",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"chọn tệp pdf",Toast.LENGTH_SHORT).show();
 
         }
         else {
@@ -128,9 +128,9 @@ public class PdfAddActivity extends AppCompatActivity {
 
     private void uploadPdfToStorage() {
         //Step 2: upload pdf len storage
-        Log.d(TAG,"uploadPdfToStorage : uploading PDF to storage ");
+        Log.d(TAG,"uploadPdfToStorage : tải PDF lên bộ lưu trữ ");
 
-        progressDialog.setMessage("Uploading PDF");
+        progressDialog.setMessage("Đang tải  PDF");
         progressDialog.show();
 
         String timestamp = String.valueOf(System.currentTimeMillis());
@@ -160,7 +160,7 @@ public class PdfAddActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
                         Log.d(TAG,"onFailure: PDF UPLOAD TO STORAGE FAILED"+e.getMessage());
-                        Toast.makeText(PdfAddActivity.this,"PDF UPLOAD TO STORAGE FAILED",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PdfAddActivity.this,"LỖI TẢI LÊN PDF LÊN BỘ LƯU TRỮ",Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -169,7 +169,7 @@ public class PdfAddActivity extends AppCompatActivity {
     private void uploadPdfIntoFireBase(String uploadedPdfUrl, String timestamp) {
         //Step 3: upload pdf len firebase db
         Log.d(TAG,"uploadPdfToFireBase : uploading PDF info to firebase db ");
-        progressDialog.setMessage("Uploading pdf Info");
+        progressDialog.setMessage("Tải lên thông tin pdf");
 
         String uid = firebaseAuth.getUid();
 
@@ -184,6 +184,11 @@ public class PdfAddActivity extends AppCompatActivity {
         hashMap.put("categoryId",""+selectedCategoryID);
         hashMap.put("url",""+uploadedPdfUrl);
         hashMap.put("timestamp",""+timestamp);
+        hashMap.put("viewsCount",0);
+        hashMap.put("downloadCount",0);
+
+
+
 
         //db reference : path : Books
 
@@ -206,7 +211,7 @@ public class PdfAddActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Log.d(TAG, "onFailure: Failed to upload to db due to"+e.getMessage());
                         Toast.makeText(PdfAddActivity.this,"onFailure: Failed to upload to db due to"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        
+
                     }
                 });
     }
@@ -274,11 +279,9 @@ public class PdfAddActivity extends AppCompatActivity {
 
     private void pdfPickIntent() {
         Log.d(TAG, "PDFPickIntent: starting pdf picking intent ");
-
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent,"Select PDF"),PDF_PICK_CODE);
         startActivityForResult(Intent.createChooser(intent,"Select PDF"),PDF_PICK_CODE);
 
     }

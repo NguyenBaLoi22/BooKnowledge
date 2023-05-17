@@ -53,23 +53,42 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
         binding = ActivityDashboardAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
         //init firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
-
         checkUser();
         getUserCounts();
         loadCategories();
+        hide2buttonAdd();
 
-        
-        //handle logout
+
+        binding.addShowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.addCategoryBtn.getVisibility() == View.VISIBLE) {
+                    hide2buttonAdd();
+                }
+                // Hiển thị điều khiển trên màn hình nếu chúng đang bị ẩn
+                else {
+                    show2buttonAdd();
+                }
+
+            }
+        });
+
+        binding.profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashboardAdminActivity.this,ProfileActivity.class));
+            }
+        });
+
         binding.addPdfFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DashboardAdminActivity.this,PdfAddActivity.class));
             }
         });
+
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +107,6 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -96,10 +114,8 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
                     // dung khi user type
                 try{
                     adapterCategory.getFilter().filter(s);
-
                 }catch (Exception e){
                     Toast.makeText(DashboardAdminActivity.this,""+e,Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -108,20 +124,28 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
 
             }
         });
-
-        RecyclerView.ItemDecoration itemDecoration = new MaterialDividerItemDecoration(this,MaterialDividerItemDecoration.VERTICAL);
-        binding.categoriesRV.addItemDecoration(itemDecoration);
+            //them dong ngan 2 recyclerview
+//        RecyclerView.ItemDecoration itemDecoration = new MaterialDividerItemDecoration(this,MaterialDividerItemDecoration.VERTICAL);
+//        binding.categoriesRV.addItemDecoration(itemDecoration);
         ItemTouchHelper.SimpleCallback simpleCallback = new RecyclerViewItemTouchHelper(10,ItemTouchHelper.LEFT,this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.categoriesRV);
 
+    }
 
+    private void hide2buttonAdd() {
+        binding.addCategoryBtn.setVisibility(View.INVISIBLE);
+        binding.addPdfFab.setVisibility(View.INVISIBLE);
+    }
 
+    private void show2buttonAdd() {
+        binding.addCategoryBtn.setVisibility(View.VISIBLE);
+        binding.addPdfFab.setVisibility(View.VISIBLE);
     }
 
     private void loadCategories() {
 
         categoryArrayList = new ArrayList<>();
-
+        // Lấy tham chiếu tới nút "users" trên Firebase Realtime Database
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,7 +160,6 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
                 adapterCategory = new AdapterCategory(DashboardAdminActivity.this, categoryArrayList);
                 binding.categoriesRV.setAdapter(adapterCategory);
 
-
             }
 
             @Override
@@ -145,8 +168,6 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
             }
         });
     }
-
-
     private void checkUser() {
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -159,8 +180,6 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
             String email = firebaseUser.getEmail();
             //set in textview toolbar
             binding.title.setText(email);
-
-
         }
     }
 
@@ -173,7 +192,7 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
                     @Override
                     public void onSuccess(Void unused) {
                         //delete succesfully
-                        Toast.makeText(context,"DONE",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"Đã Xóa Thành Công",Toast.LENGTH_SHORT).show();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -182,18 +201,14 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
                         Toast.makeText(context,""+e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
     }
-
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder) {
         if (viewHolder instanceof AdapterCategory.HolderCategory){
-            String CategoryDelete = categoryArrayList.get(viewHolder.getAdapterPosition()).getCategory();
-            final ModelCategory categorydelete = categoryArrayList.get(viewHolder.getAdapterPosition());
+//            String CategoryDelete = categoryArrayList.get(viewHolder.getAdapterPosition()).getCategory();
+//            final ModelCategory categorydelete = categoryArrayList.get(viewHolder.getAdapterPosition());
             final int indexDelete = viewHolder.getAdapterPosition();
             adapterCategory.removeItem(indexDelete);
-
         }
 
     }
@@ -202,7 +217,7 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
     private void updateUserCounts(int userCount, int onlineUserCount, int offlineUserCount) {
         // Hiển thị số lượng người dùng, số người dùng đang online và số người dùng offline trên giao diện người dùng
         TextView userCountTextView = binding.CountUsers;
-        userCountTextView.setText("Tổng User :"+String.valueOf(userCount));
+        userCountTextView.setText("Tổng :"+String.valueOf(userCount));
 
         TextView onlineUserCountTextView = binding.CountUsersOnline;
         onlineUserCountTextView.setText("Online :"+String.valueOf(onlineUserCount));
@@ -228,8 +243,8 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     UserTime user = userSnapshot.getValue(UserTime.class);
                     if (user != null) {
-                        // Nếu thời gian gần nhất mà người dùng đã hoạt động cách hiện tại không quá 5 phút
-                        if (System.currentTimeMillis() - user.getLastActiveTimestamp() <= 5 * 60 * 1000) {
+                        // Nếu thời gian gần nhất mà người dùng đã hoạt động cách hiện tại không quá 20 phút
+                        if (System.currentTimeMillis() - user.getLastActiveTimestamp() <= 20 * 60 * 1000) {
                             onlineUserCount++;
                         } else {
                             offlineUserCount = userCount - onlineUserCount;
@@ -247,6 +262,4 @@ public class DashboardAdminActivity extends AppCompatActivity implements ItemTou
             }
         });
     }
-
 }
-

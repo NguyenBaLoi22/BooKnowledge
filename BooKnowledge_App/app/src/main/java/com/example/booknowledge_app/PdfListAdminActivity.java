@@ -2,6 +2,7 @@ package com.example.booknowledge_app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,7 +42,6 @@ public class PdfListAdminActivity extends AppCompatActivity {
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
         categoryTitle =  intent.getStringExtra("categoryTitle");
-
         binding.subtitleTv.setText(categoryTitle);
 
         loadPdfList();
@@ -100,6 +100,7 @@ public class PdfListAdminActivity extends AppCompatActivity {
                         }
                         adapterPdfAdmin = new AdapterPdfAdmin(PdfListAdminActivity.this, pdfArrayList);
                         binding.bookRv.setAdapter(adapterPdfAdmin);
+
 
                     }
 
